@@ -64,7 +64,7 @@ havelHakimiReduce[degreeLst_] :=
   {degreeRemoved = First[degreeLst], newsequence = Rest[degreeLst]},
   reduced = 
    Join[ reduceDegrees[ newsequence[[1 ;; degreeRemoved]] ], 
-    newsequence[[1 + degreeRemoved ;; Length[newsequence] ]] ]; 
+    newsequence[[1 + degreeRemoved ;; Length[newsequence] ]], {0} ]; 
   Sort[reduced, Greater]
   ]
 
@@ -75,16 +75,14 @@ degreeLst must be in non-increasing order
 returns true if the list can be reduced to a list of all zeroes
 *)
 havelHakimiAlg[graphlist_] := 
- Module[{degreeLst = graphlist[[-1]]},
   If[
-   Total[degreeLst] == 0,
+   Total[graphlist] == 0,
    Return[graphlist],
    If[
-    graphicQ[degreeLst],
-    havelHakimiAlg[Append[graphlist, havelHakimiReduce[degreeLst]] ],
+    graphicQ[graphlist],
+    havelHakimiAlg[havelHakimiReduce[graphlist] ],
     False
     ]
    ]
-  ]
   
 
